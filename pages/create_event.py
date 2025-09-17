@@ -4,7 +4,7 @@ from components.footer import show_footer
 import requests
 from utils.api import base_url 
 
-event_image = None
+_event_image = None
 
 def _handle_image_upload(event): 
     global _event_image
@@ -38,8 +38,8 @@ def show_create_event_page():
         with ui.card().classes("w-[40%] font-bold text-lg"):
             ui.label("Event Title")
             event_title = ui.input(placeholder="Enter your title").classes('w-full').props("outlined")
-            event_venue=ui.label("Event Venue")
-            ui.input(placeholder="Enter the venue").classes('w-full').props("outlined")
+            ui.label("Event Venue")
+            event_venue=ui.input(placeholder="Enter the venue").classes('w-full').props("outlined")
             
             #Start and End Time section with time inputs
             with ui.row().classes("flex flex-row justify-between w-full gap-4"):
@@ -56,7 +56,7 @@ def show_create_event_page():
         ui.label("Event Description").classes("text-2xl font-bold p-4")
         with ui.card().classes("w-[40%] font-bold text-lg p-8 mb-8"):
             ui.label("Event Image")
-            ui.upload(auto_upload=True, on_upload=True).props("outlined color=purple-600").classes("w-full")
+            ui.upload(auto_upload=True, on_upload=_handle_image_upload).props("outlined color=purple-600").classes("w-full")
             ui.label("Event Description").classes("w-full")
             event_description =  ui.textarea(placeholder="Type here...").props("outlined").classes("w-full") 
 
