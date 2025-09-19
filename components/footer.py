@@ -1,8 +1,10 @@
 from nicegui import ui
 
-# Load Font Awesome for social icons 
+    # Load FontAwesome for social icons
+ui.add_head_html(
+        '<script src="https://kit.fontawesome.com/ccba89e5d4.js" crossorigin="anonymous"></script>'
+    )
 
-ui.add_head_html('''<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />''')
 
 def show_footer():
     with ui.element("footer").style("background-color: navy;").classes("w-full h-[250px]"):
@@ -33,11 +35,24 @@ def show_footer():
                     ui.link("French").classes('text-white no-underline')
                     ui.link("Hindi").classes("!text-white no-underline")
 
-            # Socials (icons)
-            with ui.row().classes("space-x-4 text-xl text-center text-white"):  # Added spacing and text size
-                ui.html('<i class="fa-brands fa-facebook-f"></i>')
-                ui.html('<i class="fa-brands fa-instagram"></i>')
-                ui.html('<i class="fa-brands fa-x-twitter"></i>')
+            # # Socials (icons)
+            # with ui.row().classes("space-x-4 text-xl text-center text-white"):  # Added spacing and text size
+            #     ui.html('<i class="fa-brands fa-facebook-f"></i>')
+            #     ui.html('<i class="fa-brands fa-instagram"></i>')
+            #     ui.html('<i class="fa-brands fa-x-twitter"></i>')
                     
-            ui.label("Non Copyrighted © 2023 Upload by EventHive").classes("text-white justify-end px-30")
+            # ui.label("Non Copyrighted © 2023 Upload by EventHive").classes("text-white justify-end px-30")
+
+          
+            # Center: Social icons
+            with ui.row().classes("gap-4 justify-center text-xl"):
+                ui.html('<i class="fa-brands fa-facebook"></i>')
+                ui.html('<i class="fa-brands fa-instagram"></i>')
+                ui.html('<i class="fa-brands fa-twitter"></i>')
+                ui.html('<i class="fa-brands fa-linkedin"></i>')
+
+            # Right: Copyright
+            ui.label("Non Copyrighted © 2025 Upload by EventHive").classes(
+                "text-[12px] text-white" 
+            )
 

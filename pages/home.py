@@ -1,19 +1,14 @@
 from nicegui import ui
 from components.header import show_header
 from components.footer import show_footer
+from components.event_card import show_event_card
+import requests
+from utils.api import base_url
 
 @ui.page("/")
 def show_home_page():
     ui.query(".nicegui-content").classes("p-0 m-0 gap-0")
-    # ui.label("Welcome to the home page")
-    with ui.row():
-        ui.link("Signup", "/signup")
-        ui.link("Signin", "/signin")
-        ui.link("event", "/event")
-        ui.link("college", "/college")
-        ui.link("create_event", "/create_event")
-        ui.link("not_found", "/not_found")
-
+    
     show_header()
 
     with ui.element("main").classes("w-full h-screen p-0 m-0"):
@@ -48,7 +43,7 @@ def show_home_page():
         # Search button 
         ui.button(icon="search").props("flat dense no-caps").classes("bg-deep-purple-600 text-white rounded-sm p-3 hover:bg-indigo-700 hover:scale-105 transition-all shadow-lg")
 
-
+# Upcoming events 
     with ui.element('section').classes("flex flex-row justify-between items-center w-full mt-16 pt-16 mb-16 px-20 py-4"): #Push section content down	pt-XX | Push whole section down	mt-XX
 
         # Left Title
@@ -65,19 +60,26 @@ def show_home_page():
             Any_category = ['Any category', 'Tech', 'Health', 'Business']
             ui.select(label='', options=Any_category, value="Any category").props('dense outlined')
         
-        # Grid_1
-        with ui.grid(columns=3).classes("w-full px-20 pb-20"): # pb-10 = padding-bottom or  mb-10 = margin-bottom provide a space underneath the grid 
+        # Grid_1 - pb-10 = padding-bottom or  mb-10 = margin-bottom provide a space underneath the grid 
+        # with ui.grid(columns=3).classes("w-full px-20 pb-20"):
+        with ui.grid(columns=3).classes("w-full px-20 pb-20"):
+            response =requests.get(f"{base_url}/events?limit=6")
+            # print(response.status_code, response.content)
+            json_data = response.json()
+            for event in json_data["data"]:
+                 show_event_card(event)
 
-            for i in range(6):
-                with ui.card().classes("mb-4"):
-                    ui.image("/assets/X1.jpeg")
-                    ui.label("Best Seller Bootcamp-Write, Market and Publish your Book-Lucknow")
-                    ui.label("Saturday, March 10, 6:30pm").classes("text-purple-600")
-                    ui.label("ONLINE EVENT - ATTEND anywhere").classes("text-gray-500")
+            # for i in range(6):
+            #     with ui.card().classes("mb-4"):
+            #         ui.image("/assets/X1.jpeg")
+            #         ui.label("Best Seller Bootcamp-Write, Market and Publish your Book-Lucknow")
+            #         ui.label("Saturday, March 10, 6:30pm").classes("text-purple-600")
+            #         ui.label("ONLINE EVENT - ATTEND anywhere").classes("text-gray-500")
+
         with ui.element("div").classes("w-full flex items-center justify-center py-10"):
             ui.button("Load More...", on_click=lambda: ui.navigate.to('/loadmore')).props("flat dense no-caps").classes("bg-purple-600 text-white shadow hover:bg-purple-500 px-4 py-2 rounded")
             
-        ui.separator().classes("h-10 bg-white")
+        # ui.separator().classes("h-10 bg-white")
 
 
 # Create events
@@ -99,9 +101,9 @@ def show_home_page():
                     
 
 # Brands Section (Figma spec, flex layout, no overlap)
-    with ui.element("section").classes("relative w-full max-w-[1200px] mx-auto py-[60px] mt-[120px]"):
+    with ui.element("section").classes("relative w-full max-w-[1200px] mx-auto py-[60px] mt-[30px]"):
                 ui.label("Join these brands").classes("block text-[36px] font-bold leading-[42px] text-center text-[#131315] mb-2")
-                ui.label("We've had the pleasure of working with industry-defining brands. These are just some of them.").classes("block text-[18px] font-bold leading-[21px] text-center text-[#131315] mb-8")
+                ui.label("We've had the pleasure of working with industry-defining brands. These are just some of them.").classes("block text-[18px] font-bold leading-[21px] text-center text-[#131315] mb-3")
                 # Logo grid (flex, Figma sizes)
                 brand_logos = [
                     ("assets/spotify.png", "w-[179px] h-[50px]"),
